@@ -22,7 +22,8 @@ class Calculator:
         Raises:
             ValueError: If b is zero.
         """
-        # BUG: missing zero-division guard
+        if b == 0:
+            raise ValueError("Cannot divide by zero")
         return a / b
 
     def power(self, base: float, exponent: int) -> float:
@@ -30,11 +31,7 @@ class Calculator:
 
         Must handle negative exponents correctly.
         """
-        # BUG: ignores the sign of the exponent
-        result = 1.0
-        for _ in range(exponent):
-            result *= base
-        return result
+        return float(base ** exponent)
 
     def average(self, numbers: list[float]) -> float:
         """Return the arithmetic mean of a list of numbers.
@@ -44,5 +41,4 @@ class Calculator:
         """
         if not numbers:
             raise ValueError("Cannot compute average of empty list")
-        # BUG: off-by-one — divides by len + 1
-        return sum(numbers) / (len(numbers) + 1)
+        return sum(numbers) / len(numbers)
