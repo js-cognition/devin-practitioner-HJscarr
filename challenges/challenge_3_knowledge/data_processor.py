@@ -21,8 +21,18 @@ def flatten_dict(
     Returns:
         A flat dictionary with compound keys.
     """
-    # TODO: Implement this function
-    raise NotImplementedError
+    result: dict[str, Any] = {}
+
+    def _flatten(d: dict[str, Any], prefix: str) -> None:
+        for key, value in d.items():
+            new_key = f"{prefix}{separator}{key}" if prefix else key
+            if isinstance(value, dict):
+                _flatten(value, new_key)
+            else:
+                result[new_key] = value
+
+    _flatten(nested, "")
+    return result
 
 
 def chunk_list(items: list[Any], chunk_size: int) -> list[list[Any]]:
@@ -40,8 +50,9 @@ def chunk_list(items: list[Any], chunk_size: int) -> list[list[Any]]:
     Raises:
         ValueError: If chunk_size is less than 1.
     """
-    # TODO: Implement this function
-    raise NotImplementedError
+    if chunk_size < 1:
+        raise ValueError("chunk_size must be >= 1")
+    return [items[i:i + chunk_size] for i in range(0, len(items), chunk_size)]
 
 
 def remove_duplicates(items: list[Any]) -> list[Any]:
@@ -55,5 +66,10 @@ def remove_duplicates(items: list[Any]) -> list[Any]:
     Returns:
         A new list with duplicates removed, in original order.
     """
-    # TODO: Implement this function
-    raise NotImplementedError
+    seen: set[Any] = set()
+    result: list[Any] = []
+    for item in items:
+        if item not in seen:
+            seen.add(item)
+            result.append(item)
+    return result
