@@ -17,8 +17,16 @@ def slugify(text: str) -> str:
     Returns:
         A URL-friendly slug string.
     """
-    # TODO: Implement this function
-    raise NotImplementedError
+    import re
+    import unicodedata
+    text = unicodedata.normalize("NFC", text)
+    text = text.encode("ascii", "ignore").decode("ascii")
+    text = text.lower()
+    text = text.replace(" ", "-")
+    text = re.sub(r"[^a-z0-9-]", "", text)
+    text = re.sub(r"-+", "-", text)
+    text = text.strip("-")
+    return text
 
 
 def truncate(text: str, max_length: int, suffix: str = "...") -> str:
@@ -40,8 +48,11 @@ def truncate(text: str, max_length: int, suffix: str = "...") -> str:
     Raises:
         ValueError: If max_length is less than the length of the suffix.
     """
-    # TODO: Implement this function
-    raise NotImplementedError
+    if max_length < len(suffix):
+        raise ValueError("max_length must be >= len(suffix)")
+    if len(text) <= max_length:
+        return text
+    return text[:max_length - len(suffix)] + suffix
 
 
 def count_words(text: str) -> int:
@@ -56,5 +67,4 @@ def count_words(text: str) -> int:
     Returns:
         The number of words.
     """
-    # TODO: Implement this function
-    raise NotImplementedError
+    return len(text.split()) if text.strip() else 0
